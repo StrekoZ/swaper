@@ -1,5 +1,5 @@
 ## Description
-Project aim is to show a service for internal business users, which gives possibility to process loan applications.
+Project is a demonstration of a simple p2p lending platform
 
 Application build using:
 - SpringBoot 2 (REST, JPA, CDI)
