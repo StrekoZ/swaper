@@ -2,9 +2,11 @@ package lv.dp.education.swaper.rest;
 
 import io.swagger.annotations.ApiOperation;
 import lv.dp.education.swaper.mapper.ModelConverter;
+import lv.dp.education.swaper.model.LoanEntity;
 import lv.dp.education.swaper.rest.model.LoanRestGetModel;
 import lv.dp.education.swaper.rest.model.LoanRestPutModel;
 import lv.dp.education.swaper.service.LoanService;
+import lv.dp.education.swaper.service.exception.EntityValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,9 @@ public class LoanResource {
     @GetMapping("/loans")
     @ApiOperation(
             value = "List loans",
-            notes = "List all loans registered in system"
+            notes = "List all loans registered in application"
     )
-    public List<LoanRestGetModel> listLoans(HttpServletResponse response) {
+    public List<LoanRestGetModel> listLoans() {
         return loanService.listLoans().stream()
                 .map(o -> ModelConverter.map(o, LoanRestGetModel.class))
                 .collect(Collectors.toList());
@@ -37,10 +39,9 @@ public class LoanResource {
     @PutMapping("/loans")
     @RolesAllowed("ADMIN")
     @ApiOperation(value = "Register Loan",
-            hidden = true,
-            notes = "todo")
-    public void registerLoan(@RequestBody LoanRestPutModel restModel, HttpServletResponse response) {
-//        loanService.createLoan(ModelConverter.map(restModel, LoanEntity.class));
+            notes = "Create new Loan in application")
+    public void registerLoan(@RequestBody LoanRestPutModel restModel, HttpServletResponse response) throws EntityValidationException {
+        loanService.createLoan(ModelConverter.map(restModel, LoanEntity.class));
         response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }

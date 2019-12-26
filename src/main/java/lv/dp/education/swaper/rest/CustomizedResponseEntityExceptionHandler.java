@@ -1,5 +1,7 @@
 package lv.dp.education.swaper.rest;
 
+import lv.dp.education.swaper.rest.model.ErrorRestModel;
+import lv.dp.education.swaper.service.exception.EntityValidationException;
 import lv.dp.education.swaper.service.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +20,19 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<String> handleAllExceptions(Exception e, WebRequest request) {
+    public final ResponseEntity<ErrorRestModel> handleAllExceptions(Exception e, WebRequest request) {
         logger.error("Exception while executing request", e);
-        String errorMessage;
+
+        ErrorRestModel errorModel;
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (e instanceof ServiceException) {
-            errorMessage = e.getMessage();
+            errorModel = new ErrorRestModel(e.getMessage(), null);
+            if (e instanceof EntityValidationException) {
+                errorModel.setErrorDetails(((EntityValidationException) e).getErrors());
+            }
         } else {
-            errorMessage = "Unrecognized application exception: " + e.getMessage();
+            errorModel = new ErrorRestModel("Unrecognized application exception: " + e.getMessage(), null);
         }
-        return new ResponseEntity<>(errorMessage, status);
+        return new ResponseEntity<>(errorModel, status);
     }
 }
