@@ -10,18 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-
 import java.math.BigDecimal;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsIterableContaining.hasItems;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoanServiceTest {

@@ -1,14 +1,10 @@
 package lv.dp.education.swaper.service;
 
-import lv.dp.education.swaper.security.SecurityConfig;
 import lv.dp.education.swaper.service.exception.ServiceException;
 import lv.dp.education.swaper.service.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
