@@ -2,6 +2,7 @@ package lv.dp.education.swaper.rest;
 
 import lv.dp.education.swaper.rest.model.ErrorRestModel;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
+import lv.dp.education.swaper.service.exception.InsufficientAccountException;
 import lv.dp.education.swaper.service.exception.ServiceException;
 import lv.dp.education.swaper.service.exception.UserAlreadyExistException;
 import org.slf4j.Logger;
@@ -21,7 +22,12 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+
+    /**
+     * Method processes exceptions caused by executing REST endpoints and builds a correct ErrorRestModel with HTTP Code
+     * */
     @ExceptionHandler(Exception.class)
+    // todo refactor method improve readability
     public final ResponseEntity<ErrorRestModel> handleAllExceptions(Exception e, WebRequest request) {
         logger.error("Exception while executing request", e);
 
@@ -33,6 +39,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 status = HttpStatus.BAD_REQUEST;
                 errorModel.setErrorDetails(((EntityValidationException) e).getErrors());
             } else if (e instanceof UserAlreadyExistException) {
+                status = HttpStatus.BAD_REQUEST;
+            } else if (e instanceof InsufficientAccountException) {
                 status = HttpStatus.BAD_REQUEST;
             }
         } else if (e instanceof AccessDeniedException) {

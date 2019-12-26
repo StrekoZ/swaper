@@ -1,18 +1,19 @@
 package lv.dp.education.swaper.rest.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data @Builder
-@AllArgsConstructor @NoArgsConstructor
-public class LoanRestPutModel {
-    private BigDecimal targetAmount;
+@AllArgsConstructor
+@NoArgsConstructor
+public class InvestmentRestPutModel {
+    private BigDecimal amount;
 
-    private BigDecimal interestPercent;
-
-    private String description;
+    private UUID loanUuid;
 }

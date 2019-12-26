@@ -1,8 +1,6 @@
-package lv.dp.education.swaper.model;
+package lv.dp.education.swaper.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -13,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "investor")
-@Data
+@Data @EqualsAndHashCode(exclude = "investments")
+@Builder
 @AllArgsConstructor @NoArgsConstructor
 public class InvestorEntity {
 
@@ -26,11 +25,11 @@ public class InvestorEntity {
     @Type(type="uuid-char")
     private UUID uuid;
 
-    private String email;
+    private String username;
 
     private BigDecimal account;
 
-    @OneToMany(mappedBy = "investor")
+    @OneToMany(mappedBy = "investor", fetch = FetchType.LAZY)
     private Set<InvestmentEntity> investments;
 
 }

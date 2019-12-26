@@ -1,8 +1,6 @@
-package lv.dp.education.swaper.model;
+package lv.dp.education.swaper.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -13,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "loan")
-@Data
+@Data @EqualsAndHashCode(exclude = "investments")
+@Builder
 @AllArgsConstructor @NoArgsConstructor
 public class LoanEntity {
     @Id
@@ -31,6 +30,19 @@ public class LoanEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "loan")
+    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY)
     private Set<InvestmentEntity> investments;
+
+    public BigDecimal totalInvestmentAmount() {
+        if (getInvestments() == null) {
+            return BigDecimal.ZERO;
+        }
+        return getInvestments().stream()
+                .map(InvestmentEntity::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal remainingInvestmentAmount() {
+        return targetAmount.subtract(totalInvestmentAmount());
+    }
 }

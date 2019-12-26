@@ -1,7 +1,7 @@
 package lv.dp.education.swaper.service;
 
 
-import lv.dp.education.swaper.model.LoanEntity;
+import lv.dp.education.swaper.entities.LoanEntity;
 import lv.dp.education.swaper.repository.LoanRepository;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
 import org.junit.Test;
@@ -33,7 +33,6 @@ public class LoanServiceTest {
         // validate behaviour on NULL object
         EntityValidationException exception = assertThrows(EntityValidationException.class, () -> loanService.createLoan(null));
         assertEquals(1, exception.getErrors().size());
-        assertEquals("Loan object is not provided", exception.getErrors().get(0));
 
         verify(loanRepository, times(0)).save(anyObject());
         verify(loanRepository, times(0)).saveAndFlush(anyObject());

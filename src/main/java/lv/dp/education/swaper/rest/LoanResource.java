@@ -1,8 +1,8 @@
 package lv.dp.education.swaper.rest;
 
 import io.swagger.annotations.ApiOperation;
-import lv.dp.education.swaper.mapper.ModelConverter;
-import lv.dp.education.swaper.model.LoanEntity;
+import lv.dp.education.swaper.entities.LoanEntity;
+import lv.dp.education.swaper.mapper.OrikaMapper;
 import lv.dp.education.swaper.rest.model.LoanRestGetModel;
 import lv.dp.education.swaper.rest.model.LoanRestPutModel;
 import lv.dp.education.swaper.service.LoanService;
@@ -24,6 +24,8 @@ public class LoanResource {
 
     @Autowired
     private LoanService loanService;
+    @Autowired
+    private OrikaMapper orikaMapper;
 
     @GetMapping
     @ApiOperation(
@@ -32,7 +34,7 @@ public class LoanResource {
     )
     public List<LoanRestGetModel> listLoans() {
         return loanService.listLoans().stream()
-                .map(o -> ModelConverter.map(o, LoanRestGetModel.class))
+                .map(o -> orikaMapper.map(o, LoanRestGetModel.class))
                 .collect(Collectors.toList());
     }
 
@@ -42,7 +44,7 @@ public class LoanResource {
     @ApiOperation(value = "Register Loan",
             notes = "Create new Loan in application")
     public void registerLoan(@RequestBody LoanRestPutModel restModel, HttpServletResponse response) throws EntityValidationException {
-        loanService.createLoan(ModelConverter.map(restModel, LoanEntity.class));
+        loanService.createLoan(orikaMapper.map(restModel, LoanEntity.class));
         response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }

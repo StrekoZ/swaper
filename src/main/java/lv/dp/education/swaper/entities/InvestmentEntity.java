@@ -1,9 +1,7 @@
-package lv.dp.education.swaper.model;
+package lv.dp.education.swaper.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -14,7 +12,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "investment")
-@Data
+@Data @EqualsAndHashCode(exclude = {"loan", "investor"})
+@Builder
 @AllArgsConstructor @NoArgsConstructor
 public class InvestmentEntity {
     @Id
@@ -30,9 +29,11 @@ public class InvestmentEntity {
 
     private Date date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="loan_uuid", nullable=false)
     private LoanEntity loan;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="investor_uuid", nullable=false)
     private InvestorEntity investor;
 }

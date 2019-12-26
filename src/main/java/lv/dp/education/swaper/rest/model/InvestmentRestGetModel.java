@@ -6,19 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.UUID;
 
 @Data @Builder
 @AllArgsConstructor @NoArgsConstructor
-public class LoanRestGetModel {
+public class InvestmentRestGetModel {
     private UUID uuid;
 
-    private BigDecimal investedAmount;
+    private BigDecimal amount;
 
-    private BigDecimal targetAmount;
+    private Date date;
 
-    private BigDecimal interestPercent;
-
-    private String description;
-
+    private UUID loanUuid;
 }

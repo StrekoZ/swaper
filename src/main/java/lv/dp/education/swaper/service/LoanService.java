@@ -1,18 +1,21 @@
 package lv.dp.education.swaper.service;
 
-import lv.dp.education.swaper.model.LoanEntity;
+import lv.dp.education.swaper.entities.LoanEntity;
 import lv.dp.education.swaper.repository.LoanRepository;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
+@Transactional
 public class LoanService {
 
     @Autowired
@@ -44,5 +47,9 @@ public class LoanService {
         if (!errors.isEmpty()) {
             throw new EntityValidationException(errors);
         }
+    }
+
+    public LoanEntity getLoanByUuid(UUID loanUuid) {
+        return repository.findByUuid(loanUuid);
     }
 }
