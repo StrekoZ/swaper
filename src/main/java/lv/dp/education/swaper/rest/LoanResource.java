@@ -18,13 +18,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("loans")
 public class LoanResource {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private LoanService loanService;
 
-    @GetMapping("/loans")
+    @GetMapping
     @ApiOperation(
             value = "List loans",
             notes = "List all loans registered in application"
@@ -36,7 +37,7 @@ public class LoanResource {
     }
 
 
-    @PutMapping("/loans")
+    @PutMapping
     @RolesAllowed("ADMIN")
     @ApiOperation(value = "Register Loan",
             notes = "Create new Loan in application")

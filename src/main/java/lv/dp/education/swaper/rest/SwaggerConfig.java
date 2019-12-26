@@ -2,6 +2,7 @@ package lv.dp.education.swaper.rest;
 
 
 import com.google.common.base.Predicates;
+import io.swagger.annotations.SwaggerDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,6 +17,11 @@ import java.util.ArrayList;
 
 @Configuration
 @EnableSwagger2
+@SwaggerDefinition(
+        consumes = {"application/json"},
+        produces = {"application/json"},
+        schemes = {SwaggerDefinition.Scheme.HTTP, SwaggerDefinition.Scheme.HTTPS}
+)
 public class SwaggerConfig {
     public static final ApiInfo DEFAULT_API_INFO = new ApiInfo(
             "Swaper",

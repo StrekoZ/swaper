@@ -3,10 +3,12 @@ package lv.dp.education.swaper.rest;
 import lv.dp.education.swaper.rest.model.ErrorRestModel;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
 import lv.dp.education.swaper.service.exception.ServiceException;
+import lv.dp.education.swaper.service.exception.UserAlreadyExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +30,18 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         if (e instanceof ServiceException) {
             errorModel = new ErrorRestModel(e.getMessage(), null);
             if (e instanceof EntityValidationException) {
+                status = HttpStatus.BAD_REQUEST;
                 errorModel.setErrorDetails(((EntityValidationException) e).getErrors());
+            } else if (e instanceof UserAlreadyExistException) {
+                status = HttpStatus.BAD_REQUEST;
+            }
+        } else if (e instanceof AccessDeniedException) {
+            if (request.getUserPrincipal() == null) {
+                status = HttpStatus.UNAUTHORIZED;
+                errorModel = new ErrorRestModel("You must authenticate first (please use '/auth/login' endpoint)", null);
+            } else {
+                status = HttpStatus.FORBIDDEN;
+                errorModel = new ErrorRestModel("You don't have necessary access", null);
             }
         } else {
             errorModel = new ErrorRestModel("Unrecognized application exception: " + e.getMessage(), null);
