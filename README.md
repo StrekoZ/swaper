@@ -22,3 +22,8 @@ Application build using:
 ## Work with application
 Once application is launched open http://localhost:8080/ in your browser. There will be redirect to Swagger UI
 
+# TODO
+- add API for investor account display
+- add tests for LoanEntity & other tests on services
+- add overall documentation
+- describe happy-path (maybe put a test in Spring)

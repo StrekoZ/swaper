@@ -1,6 +1,5 @@
 package lv.dp.education.swaper.entities;
 
-
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -11,13 +10,13 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "investment")
-@ToString(exclude = {"loan", "investor"})
-@EqualsAndHashCode(exclude = {"loan", "investor"})
+@Table(name = "payment")
+@ToString(exclude = {"loan"})
+@EqualsAndHashCode(exclude = {"loan"})
 @Getter @Setter
 @Builder
 @AllArgsConstructor @NoArgsConstructor
-public class InvestmentEntity {
+public class PaymentEntity {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -34,8 +33,4 @@ public class InvestmentEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "loan_uuid", nullable = false)
     private LoanEntity loan;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "investor_uuid", nullable = false)
-    private InvestorEntity investor;
 }

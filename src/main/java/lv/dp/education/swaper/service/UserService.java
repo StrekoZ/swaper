@@ -1,7 +1,6 @@
 package lv.dp.education.swaper.service;
 
 import lv.dp.education.swaper.entities.InvestorEntity;
-import lv.dp.education.swaper.repository.InvestorRepository;
 import lv.dp.education.swaper.service.exception.ServiceException;
 import lv.dp.education.swaper.service.exception.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class UserService {
     @Autowired
     private UserDetailsManager userManager;
     @Autowired
-    private InvestorRepository investorRepository;
+    private InvestorService investorService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -34,9 +33,11 @@ public class UserService {
                         .roles("INVESTOR")
                         .build()
         );
-        investorRepository.save(
-                new InvestorEntity(null, username, new BigDecimal(100), null)
-        );
+
+        InvestorEntity investor = InvestorEntity.builder().username(username).build();
+
+        investorService.createInvestor(investor);
+        investorService.addFundsToAccount(investor, new BigDecimal(100));
     }
 
 }

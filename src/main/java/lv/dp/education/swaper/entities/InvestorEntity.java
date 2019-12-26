@@ -11,7 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "investor")
-@Data @EqualsAndHashCode(exclude = "investments")
+@ToString(exclude = "investments")
+@EqualsAndHashCode(exclude = "investments")
+@Getter @Setter
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 public class InvestorEntity {
@@ -22,12 +24,12 @@ public class InvestorEntity {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     private UUID uuid;
 
     private String username;
 
-    private BigDecimal account;
+    private BigDecimal account = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "investor", fetch = FetchType.LAZY)
     private Set<InvestmentEntity> investments;

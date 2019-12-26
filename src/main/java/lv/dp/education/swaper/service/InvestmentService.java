@@ -1,6 +1,7 @@
 package lv.dp.education.swaper.service;
 
 import lv.dp.education.swaper.entities.InvestmentEntity;
+import lv.dp.education.swaper.entities.LoanStatus;
 import lv.dp.education.swaper.repository.InvestmentRepository;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
 import lv.dp.education.swaper.service.exception.InsufficientAccountException;
@@ -54,15 +55,18 @@ public class InvestmentService {
             throw new EntityValidationException(errors);
         }
 
-        // validate investment sum doesn't exceed investor account
         try {
+            // validate investment sum doesn't exceed investor account
             investorService.validateInvestorHasEnoughFunds(investment.getInvestor(), investment.getAmount());
         } catch (InsufficientAccountException exception) {
             errors.add(exception.getMessage());
         }
 
-        // validate investment is not bigger than Loan target amount
-        if (investment.getAmount().compareTo(investment.getLoan().remainingInvestmentAmount()) > 0) {
+        if (LoanStatus.REPAYMENT.equals(investment.getLoan().getStatus())) {
+            // validate that there is no repayment process started for Loan
+            errors.add("Loan is already in 'REPAYMENT' phase. Investments are not available");
+        } else if (investment.getAmount().compareTo(investment.getLoan().remainingInvestmentAmount()) > 0) {
+            // validate investment is not bigger than Loan target amount
             errors.add(String.format("Investment is bigger than it is required in a Loan. Required amount in a Loan is %s", investment.getLoan().remainingInvestmentAmount()));
         }
 

@@ -6,12 +6,15 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "loan")
-@Data @EqualsAndHashCode(exclude = "investments")
+@ToString(exclude = {"investments", "payments"})
+@EqualsAndHashCode(exclude = {"investments", "payments"})
+@Getter @Setter
 @Builder
 @AllArgsConstructor @NoArgsConstructor
 public class LoanEntity {
@@ -30,8 +33,14 @@ public class LoanEntity {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private LoanStatus status;
+
     @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY)
     private Set<InvestmentEntity> investments;
+
+    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY)
+    private Set<PaymentEntity> payments;
 
     public BigDecimal totalInvestmentAmount() {
         if (getInvestments() == null) {
@@ -45,4 +54,22 @@ public class LoanEntity {
     public BigDecimal remainingInvestmentAmount() {
         return targetAmount.subtract(totalInvestmentAmount());
     }
+
+    public BigDecimal totalRepaymentAmount() {
+        return totalInvestmentAmount().add(
+                totalInvestmentAmount().multiply(interestPercent).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP)
+        );
+    }
+
+    public BigDecimal remainingRepaymentAmount() {
+        if (getPayments() == null) {
+            return totalRepaymentAmount();
+        }
+        return totalRepaymentAmount().subtract(
+                getPayments().stream()
+                        .map(PaymentEntity::getAmount)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add)
+        );
+    }
+
 }

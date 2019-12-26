@@ -69,4 +69,9 @@ public class LoanServiceTest {
         verify(loanRepository, times(1)).save(anyObject());
         verify(loanRepository, times(0)).saveAndFlush(anyObject());
     }
+
+    @Test
+    public void makePayment_OK() {
+
+    }
 }

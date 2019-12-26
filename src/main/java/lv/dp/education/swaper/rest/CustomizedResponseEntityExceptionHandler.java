@@ -1,10 +1,7 @@
 package lv.dp.education.swaper.rest;
 
 import lv.dp.education.swaper.rest.model.ErrorRestModel;
-import lv.dp.education.swaper.service.exception.EntityValidationException;
-import lv.dp.education.swaper.service.exception.InsufficientAccountException;
-import lv.dp.education.swaper.service.exception.ServiceException;
-import lv.dp.education.swaper.service.exception.UserAlreadyExistException;
+import lv.dp.education.swaper.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -42,6 +39,10 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 status = HttpStatus.BAD_REQUEST;
             } else if (e instanceof InsufficientAccountException) {
                 status = HttpStatus.BAD_REQUEST;
+            } else if (e instanceof RepaymentIsTooBigException) {
+                status = HttpStatus.BAD_REQUEST;
+            } else if (e instanceof LoanNotFoundException) {
+                status = HttpStatus.NOT_FOUND;
             }
         } else if (e instanceof AccessDeniedException) {
             if (request.getUserPrincipal() == null) {

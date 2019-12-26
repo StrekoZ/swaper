@@ -40,6 +40,7 @@ public class OrikaMapper {
                         super.mapAtoB(loanEntity, loanRestGetModel, context);
                         // calculate sum of investments
                         loanRestGetModel.setInvestedAmount(loanEntity.totalInvestmentAmount());
+                        loanRestGetModel.setRemainingRepaymentAmount(loanEntity.remainingRepaymentAmount());
                     }
                 })
                 .register();

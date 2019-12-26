@@ -31,4 +31,14 @@ public class InvestorService {
             throw new InsufficientAccountException(investor.getAccount());
         }
     }
+
+    public void addFundsToAccount(InvestorEntity investor, BigDecimal amount) {
+        investor.setAccount(investor.getAccount().add(amount));
+        repository.save(investor);
+    }
+
+    public void createInvestor(InvestorEntity investor) {
+        // todo validation of input parameters
+        repository.save(investor);
+    }
 }

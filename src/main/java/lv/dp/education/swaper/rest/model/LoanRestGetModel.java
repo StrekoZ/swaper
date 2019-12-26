@@ -15,6 +15,8 @@ public class LoanRestGetModel {
 
     private BigDecimal investedAmount;
 
+    private BigDecimal remainingRepaymentAmount;
+
     private BigDecimal targetAmount;
 
     private BigDecimal interestPercent;

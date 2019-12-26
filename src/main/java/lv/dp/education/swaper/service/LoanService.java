@@ -1,6 +1,7 @@
 package lv.dp.education.swaper.service;
 
 import lv.dp.education.swaper.entities.LoanEntity;
+import lv.dp.education.swaper.entities.LoanStatus;
 import lv.dp.education.swaper.repository.LoanRepository;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ public class LoanService {
 
     public void createLoan(LoanEntity loan) throws EntityValidationException {
         validateLoan(loan);
+        loan.setStatus(LoanStatus.FOUNDING);
         repository.save(loan);
     }
 

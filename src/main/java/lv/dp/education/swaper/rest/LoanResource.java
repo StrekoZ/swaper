@@ -6,24 +6,27 @@ import lv.dp.education.swaper.mapper.OrikaMapper;
 import lv.dp.education.swaper.rest.model.LoanRestGetModel;
 import lv.dp.education.swaper.rest.model.LoanRestPutModel;
 import lv.dp.education.swaper.service.LoanService;
+import lv.dp.education.swaper.service.PaymentService;
 import lv.dp.education.swaper.service.exception.EntityValidationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lv.dp.education.swaper.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("loans")
 public class LoanResource {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private LoanService loanService;
+    @Autowired
+    private PaymentService paymentService;
     @Autowired
     private OrikaMapper orikaMapper;
 
@@ -45,6 +48,16 @@ public class LoanResource {
             notes = "Create new Loan in application")
     public void registerLoan(@RequestBody LoanRestPutModel restModel, HttpServletResponse response) throws EntityValidationException {
         loanService.createLoan(orikaMapper.map(restModel, LoanEntity.class));
+        response.setStatus(HttpServletResponse.SC_CREATED);
+    }
+
+    @PutMapping("{loanUuid}/payment")
+    @RolesAllowed("ADMIN")
+    @ApiOperation(value = "Make a payment")
+    public void makePayment(@PathVariable("loanUuid") UUID loanUuid,
+                            @RequestParam("payment") BigDecimal payment,
+                            HttpServletResponse response) throws ServiceException {
+        paymentService.makePayment(loanUuid, payment);
         response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }

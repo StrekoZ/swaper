@@ -1,13 +1,12 @@
 package lv.dp.education.swaper.repository;
 
-import lv.dp.education.swaper.entities.LoanEntity;
+import lv.dp.education.swaper.entities.PaymentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
 @Repository
-public interface LoanRepository extends JpaRepository<LoanEntity, UUID>{
+public interface PaymentRepository extends JpaRepository<PaymentEntity, UUID> {
 
-    LoanEntity findByUuid(UUID loanUuid);
 }
