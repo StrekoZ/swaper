@@ -1,6 +1,8 @@
 package lv.dp.education.swaper.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -29,6 +31,6 @@ public class LoanEntity {
 
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "loan")
     private Set<InvestmentEntity> investments;
 }

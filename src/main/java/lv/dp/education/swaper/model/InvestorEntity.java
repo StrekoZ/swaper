@@ -30,7 +30,7 @@ public class InvestorEntity {
 
     private BigDecimal account;
 
-    @OneToMany
+    @OneToMany(mappedBy = "investor")
     private Set<InvestmentEntity> investments;
 
 }
