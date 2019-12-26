@@ -1,6 +1,5 @@
 package lv.dp.education.swaper.rest;
 
-
 import com.google.common.base.Predicates;
 import io.swagger.annotations.SwaggerDefinition;
 import org.springframework.context.annotation.Bean;
