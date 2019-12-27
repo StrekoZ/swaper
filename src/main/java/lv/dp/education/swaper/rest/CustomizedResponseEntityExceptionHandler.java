@@ -2,8 +2,6 @@ package lv.dp.education.swaper.rest;
 
 import lv.dp.education.swaper.rest.model.ErrorRestModel;
 import lv.dp.education.swaper.service.exception.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,9 +15,6 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
 
     /**
      * Method processes exceptions caused by executing REST endpoints and builds a correct ErrorRestModel with HTTP Code

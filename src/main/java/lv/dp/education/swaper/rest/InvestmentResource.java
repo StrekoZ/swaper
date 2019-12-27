@@ -8,8 +8,6 @@ import lv.dp.education.swaper.rest.model.InvestmentRestPutModel;
 import lv.dp.education.swaper.service.InvestmentService;
 import lv.dp.education.swaper.service.InvestorService;
 import lv.dp.education.swaper.service.exception.ServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +20,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("investments")
 public class InvestmentResource {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private InvestmentService investmentService;
     @Autowired
