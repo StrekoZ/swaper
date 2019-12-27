@@ -4,7 +4,6 @@ import lv.dp.education.swaper.rest.model.ErrorRestModel;
 import lv.dp.education.swaper.service.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 @RestController
@@ -22,39 +23,61 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     /**
      * Method processes exceptions caused by executing REST endpoints and builds a correct ErrorRestModel with HTTP Code
-     * */
+     */
     @ExceptionHandler(Exception.class)
-    // todo refactor method improve readability
     public final ResponseEntity<ErrorRestModel> handleAllExceptions(Exception e, WebRequest request) {
         logger.error("Exception while executing request", e);
 
-        ErrorRestModel errorModel;
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (e instanceof ServiceException) {
-            errorModel = new ErrorRestModel(e.getMessage(), null);
-            if (e instanceof EntityValidationException) {
-                status = HttpStatus.BAD_REQUEST;
-                errorModel.setErrorDetails(((EntityValidationException) e).getErrors());
-            } else if (e instanceof UserAlreadyExistException) {
-                status = HttpStatus.BAD_REQUEST;
-            } else if (e instanceof InsufficientAccountException) {
-                status = HttpStatus.BAD_REQUEST;
-            } else if (e instanceof RepaymentIsTooBigException) {
-                status = HttpStatus.BAD_REQUEST;
-            } else if (e instanceof LoanNotFoundException) {
-                status = HttpStatus.NOT_FOUND;
-            }
+            handleServiceExceptions((ServiceException) e, request);
         } else if (e instanceof AccessDeniedException) {
-            if (request.getUserPrincipal() == null) {
-                status = HttpStatus.UNAUTHORIZED;
-                errorModel = new ErrorRestModel("You must authenticate first (please use '/auth/login' endpoint)", null);
-            } else {
-                status = HttpStatus.FORBIDDEN;
-                errorModel = new ErrorRestModel("You don't have necessary access", null);
-            }
-        } else {
-            errorModel = new ErrorRestModel("Unrecognized application exception: " + e.getMessage(), null);
+            handleAccessExceptions((AccessDeniedException) e, request);
         }
-        return new ResponseEntity<>(errorModel, status);
+
+        return new ResponseEntity<>(
+                new ErrorRestModel("Unrecognized application exception: " + e.getMessage(), null),
+                INTERNAL_SERVER_ERROR));
+    }
+
+
+    public final ResponseEntity<ErrorRestModel> handleServiceExceptions(ServiceException e, WebRequest request) {
+        if (e instanceof EntityValidationException) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel(e.getMessage(), ((EntityValidationException) e).getErrors()),
+                    BAD_REQUEST);
+        } else if (e instanceof UserAlreadyExistException) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel(e.getMessage(), null),
+                    BAD_REQUEST);
+        } else if (e instanceof InsufficientAccountException) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel(e.getMessage(), null),
+                    BAD_REQUEST);
+        } else if (e instanceof RepaymentIsTooBigException) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel(e.getMessage(), null),
+                    BAD_REQUEST);
+        } else if (e instanceof LoanNotFoundException) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel(e.getMessage(), null),
+                    NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(
+                new ErrorRestModel(e.getMessage(), null),
+                INTERNAL_SERVER_ERROR);
+
+    }
+
+    public final ResponseEntity<ErrorRestModel> handleAccessExceptions(AccessDeniedException e, WebRequest request) {
+        if (request.getUserPrincipal() == null) {
+            return new ResponseEntity<>(
+                    new ErrorRestModel("You must authenticate first (please use '/auth/login' endpoint)", null),
+                    UNAUTHORIZED);
+        } else {
+            return new ResponseEntity<>(
+                    new ErrorRestModel("You don't have necessary access", null),
+                    FORBIDDEN);
+        }
     }
 }

@@ -74,11 +74,10 @@ public class OrikaMapperTest {
 
     @Test
     public void testMapper_LoanPutRestModel_to_LoanEntity() {
-        LoanEntity entity = orikaMapper.map(new LoanRestPutModel(
-                new BigDecimal(100),
-                new BigDecimal(11),
-                "new Test Loan"
-        ), LoanEntity.class);
+        LoanEntity entity = orikaMapper.map(LoanRestPutModel.builder()
+                .targetAmount(new BigDecimal(100))
+                .interestPercent(new BigDecimal(11))
+                .description("new Test Loan").build(), LoanEntity.class);
 
         assertEquals(new BigDecimal(100), entity.getTargetAmount());
         assertEquals(new BigDecimal(11), entity.getInterestPercent());
