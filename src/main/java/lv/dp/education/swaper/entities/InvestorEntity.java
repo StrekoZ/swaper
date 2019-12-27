@@ -31,7 +31,7 @@ public class InvestorEntity {
 
     private BigDecimal account = BigDecimal.ZERO;
 
-    @OneToMany(mappedBy = "investor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "investor", fetch = FetchType.EAGER)
     private Set<InvestmentEntity> investments;
 
 }

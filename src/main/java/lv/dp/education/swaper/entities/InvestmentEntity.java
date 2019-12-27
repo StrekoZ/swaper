@@ -31,11 +31,11 @@ public class InvestmentEntity {
 
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loan_uuid", nullable = false)
     private LoanEntity loan;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "investor_uuid", nullable = false)
     private InvestorEntity investor;
 }

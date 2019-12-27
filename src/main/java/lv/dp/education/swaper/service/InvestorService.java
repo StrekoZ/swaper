@@ -24,6 +24,7 @@ public class InvestorService {
     public void reduceInvestorAccount(InvestorEntity investor, BigDecimal amount) throws InsufficientAccountException {
         validateInvestorHasEnoughFunds(investor, amount);
         investor.setAccount(investor.getAccount().subtract(amount));
+        repository.save(investor);
     }
 
     public void validateInvestorHasEnoughFunds(InvestorEntity investor, BigDecimal amount) throws InsufficientAccountException {

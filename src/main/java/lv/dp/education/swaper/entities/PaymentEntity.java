@@ -30,7 +30,7 @@ public class PaymentEntity {
 
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "loan_uuid", nullable = false)
     private LoanEntity loan;
 }

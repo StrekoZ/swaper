@@ -36,10 +36,10 @@ public class LoanEntity {
     @Enumerated(EnumType.STRING)
     private LoanStatus status;
 
-    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
     private Set<InvestmentEntity> investments;
 
-    @OneToMany(mappedBy = "loan", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
     private Set<PaymentEntity> payments;
 
     public BigDecimal totalInvestmentAmount() {

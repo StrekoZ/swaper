@@ -1,11 +1,9 @@
 package lv.dp.education.swaper.mapper;
 
 import lv.dp.education.swaper.entities.InvestmentEntity;
+import lv.dp.education.swaper.entities.InvestorEntity;
 import lv.dp.education.swaper.entities.LoanEntity;
-import lv.dp.education.swaper.rest.model.InvestmentRestGetModel;
-import lv.dp.education.swaper.rest.model.InvestmentRestPutModel;
-import lv.dp.education.swaper.rest.model.LoanRestGetModel;
-import lv.dp.education.swaper.rest.model.LoanRestPutModel;
+import lv.dp.education.swaper.rest.model.*;
 import lv.dp.education.swaper.service.LoanService;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
@@ -74,5 +72,9 @@ public class OrikaMapper {
                 })
                 .register();
 
+
+        mapperFactory.classMap(InvestorEntity.class, InvestorRestGetModel.class)
+                .byDefault()
+                .register();
     }
 }

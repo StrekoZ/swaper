@@ -45,7 +45,7 @@ public class PaymentService {
         loan.getInvestments().forEach(investment -> {
             investorService.addFundsToAccount(
                     investment.getInvestor(),
-                    investment.getAmount().divide(totalInvestmentAmount).multiply(payment).setScale(2, RoundingMode.HALF_UP)
+                    investment.getAmount().multiply(payment).divide(totalInvestmentAmount, 2, RoundingMode.HALF_UP)
             );
         });
     }

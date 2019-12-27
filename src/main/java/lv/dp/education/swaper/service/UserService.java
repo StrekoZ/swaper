@@ -23,6 +23,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public InvestorEntity getInvestor(String username) {
+        return investorService.findInvestorByUsername(username);
+    }
+
     public void registerInvestor(String username, String password) throws ServiceException {
         if (userManager.userExists(username)) {
             throw new UserAlreadyExistException(username);
@@ -34,10 +38,7 @@ public class UserService {
                         .build()
         );
 
-        InvestorEntity investor = InvestorEntity.builder().username(username).build();
-
+        InvestorEntity investor = InvestorEntity.builder().username(username).account(new BigDecimal(100)).build();
         investorService.createInvestor(investor);
-        investorService.addFundsToAccount(investor, new BigDecimal(100));
     }
-
 }
