@@ -31,11 +31,11 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
         return new ResponseEntity<>(
                 new ErrorRestModel("Unrecognized application exception: " + e.getMessage(), null),
-                INTERNAL_SERVER_ERROR));
+                INTERNAL_SERVER_ERROR);
     }
 
 
-    public final ResponseEntity<ErrorRestModel> handleServiceExceptions(ServiceException e, WebRequest request) {
+    private final ResponseEntity<ErrorRestModel> handleServiceExceptions(ServiceException e, WebRequest request) {
         if (e instanceof EntityValidationException) {
             return new ResponseEntity<>(
                     new ErrorRestModel(e.getMessage(), ((EntityValidationException) e).getErrors()),
@@ -64,7 +64,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     }
 
-    public final ResponseEntity<ErrorRestModel> handleAccessExceptions(AccessDeniedException e, WebRequest request) {
+    private final ResponseEntity<ErrorRestModel> handleAccessExceptions(AccessDeniedException e, WebRequest request) {
         if (request.getUserPrincipal() == null) {
             return new ResponseEntity<>(
                     new ErrorRestModel("You must authenticate first (please use '/auth/login' endpoint)", null),

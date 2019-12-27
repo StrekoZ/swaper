@@ -43,7 +43,7 @@ public class OrikaMapperTest {
                 new LoanEntity().builder()
                         .uuid(UUID.fromString("12345678-1234-1234-1234-123456789abc"))
                         .targetAmount(new BigDecimal("100"))
-                        .interestPercent(new BigDecimal("11.5"))
+                        .interestPercent(new BigDecimal("10"))
                         .description("Test Loan")
                         .investments(Sets.newHashSet(
                                 new InvestmentEntity(
@@ -60,17 +60,16 @@ public class OrikaMapperTest {
                                         null,
                                         null
                                 )
-                                )
-
+                            )
                         ).build(),
                 LoanRestGetModel.class);
 
         assertEquals(UUID.fromString("12345678-1234-1234-1234-123456789abc"), restGetModel.getUuid());
         assertEquals(new BigDecimal("100"), restGetModel.getTargetAmount());
-        assertEquals(new BigDecimal("11.5"), restGetModel.getInterestPercent());
+        assertEquals(new BigDecimal("10"), restGetModel.getInterestPercent());
         assertEquals("Test Loan", restGetModel.getDescription());
         assertEquals(new BigDecimal(15), restGetModel.getInvestedAmount());
-        assertEquals(new BigDecimal(15), restGetModel.getRemainingRepaymentAmount());
+        assertEquals(new BigDecimal("16.50"), restGetModel.getRemainingRepaymentAmount());
     }
 
     @Test

@@ -63,6 +63,5 @@ Is not implemented, as wan't pointed in requirements
 
 
 # TODO
-- add tests for LoanEntity & other tests on services
-- add overall documentation
+- add tests to PaymentService & InvestorService (partially tested with HappyPathTest)
 - BigDecimal scale is not explicitly validated during incoming request
