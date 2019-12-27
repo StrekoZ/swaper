@@ -39,6 +39,8 @@ Application have built-in users: `admin` (password 'admin') and `investor` (pass
 12. Validate investor account
 13. Logout
 
+Some loans are pre-populated for demo
+
 
 # Application structure
 ## 3 Application Layers
