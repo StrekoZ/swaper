@@ -1,8 +1,8 @@
 package lv.dp.education.swaper.rest;
 
 import io.swagger.annotations.ApiOperation;
+import lv.dp.education.swaper.OrikaMapper;
 import lv.dp.education.swaper.entities.InvestmentEntity;
-import lv.dp.education.swaper.mapper.OrikaMapper;
 import lv.dp.education.swaper.rest.model.InvestmentRestGetModel;
 import lv.dp.education.swaper.rest.model.InvestmentRestPutModel;
 import lv.dp.education.swaper.service.InvestmentService;

@@ -1,4 +1,4 @@
-package lv.dp.education.swaper.mapper;
+package lv.dp.education.swaper;
 
 import lv.dp.education.swaper.entities.InvestmentEntity;
 import lv.dp.education.swaper.entities.InvestorEntity;

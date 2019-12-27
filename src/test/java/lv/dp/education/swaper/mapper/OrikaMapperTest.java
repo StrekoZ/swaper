@@ -1,6 +1,7 @@
 package lv.dp.education.swaper.mapper;
 
 import com.google.common.collect.Sets;
+import lv.dp.education.swaper.OrikaMapper;
 import lv.dp.education.swaper.entities.InvestmentEntity;
 import lv.dp.education.swaper.entities.LoanEntity;
 import lv.dp.education.swaper.rest.model.InvestmentRestGetModel;
